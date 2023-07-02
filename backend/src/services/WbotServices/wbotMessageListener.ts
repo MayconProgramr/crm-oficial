@@ -1203,11 +1203,15 @@ const handleChartbot = async (
           }
         } else {
 
-          body += `*[ 0 ]* - *Voltar*\n`;
-          body += `*[ # ]* - *Menu inicial*`;
+          //body += `*[ 0 ]* - *Voltar*\n`;
+          //body += `*[ # ]* - *Menu inicial*`;
         }
       }
   
+      if( !body ){
+        return;
+      }
+      
       const textMessage = {
         text: formatBody(`\u200e${body}`, ticket.contact),
       };
