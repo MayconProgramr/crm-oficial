@@ -165,6 +165,30 @@ const useStyles = makeStyles((theme) => ({
     color: "#6bcbef",
     fontWeight: 500,
   },
+  messageQuickAnswersWrapper: {
+		margin: 0,
+		position: "absolute",
+		bottom: "50px",
+		background: "#ffffff",
+		padding: "2px",
+		border: "1px solid #CCC",
+		left: 0,
+		width: "100%",
+		"& li": {
+		  listStyle: "none",
+		  "& a": {
+			display: "block",
+			padding: "8px",
+			textOverflow: "ellipsis",
+			overflow: "hidden",
+			maxHeight: "32px",
+			"&:hover": {
+			  background: "#F1F1F1",
+			  cursor: "pointer",
+			},
+		  },
+		},
+	  },
 }));
 
 const EmojiOptions = (props) => {
@@ -327,7 +351,8 @@ const CustomInput = (props) => {
   const [quickMessages, setQuickMessages] = useState([]);
   const [options, setOptions] = useState([]);
   const [popupOpen, setPopupOpen] = useState(false);
-
+  const [quickAnswers, setQuickAnswer] = useState([]);
+	const [typeBar, setTypeBar] = useState(false);
   const { user } = useContext(AuthContext);
 
   const { list: listQuickMessages } = useQuickMessages();
@@ -384,6 +409,31 @@ const CustomInput = (props) => {
     }
   };
 
+  const handleLoadQuickAnswer = async (value) => {
+		if (value && value.indexOf("/") === 0) {
+		  try {
+			const { data } = await api.get("/quick-messages/", {
+			  params: { searchParam: inputMessage.substring(1) },
+			});
+			setQuickAnswer(data.records);
+			if (data.records.length > 0) {
+			  setTypeBar(true);
+			} else {
+			  setTypeBar(false);
+			}
+		  } catch (err) {
+        setTypeBar(false);
+		  }
+		} else {
+		  setTypeBar(false);
+		}
+	  };
+
+    const handleQuickAnswersClick = (value) => {
+      setInputMessage(value);
+      setTypeBar(false);
+      };
+
   const renderPlaceholder = () => {
     if (ticketStatus === "open") {
       return i18n.t("messagesInput.placeholderOpen");
@@ -423,6 +473,7 @@ const CustomInput = (props) => {
           }
         }}
         onInputChange={(event, opt, reason) => {
+          handleLoadQuickAnswer(event.target.value);
           if (reason === "input") {
             setInputMessage(event.target.value);
           }
@@ -446,6 +497,25 @@ const CustomInput = (props) => {
           );
         }}
       />
+      {typeBar ? (
+          <ul className={classes.messageQuickAnswersWrapper}>
+            {quickAnswers.map((value, index) => {
+              return (
+                <li
+                  className={classes.messageQuickAnswersWrapperItem}
+                  key={index}
+                >
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                  <a onClick={() => handleQuickAnswersClick(value.message)}>
+                    {`${value.shortcode} - ${value.message}`}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <div></div>
+        )}
     </div>
   );
 };
@@ -465,7 +535,9 @@ const MessageInputCustom = (props) => {
   const { user } = useContext(AuthContext);
 
   const [signMessage, setSignMessage] = useLocalStorage("signOption", true);
-
+  const [quickAnswers, setQuickAnswer] = useState([]);
+	const [typeBar, setTypeBar] = useState(false);
+  
   useEffect(() => {
     inputRef.current.focus();
   }, [replyingMessage]);
@@ -480,13 +552,41 @@ const MessageInputCustom = (props) => {
     };
   }, [ticketId, setReplyingMessage]);
 
-  // const handleChangeInput = e => {
-  // 	if (isObject(e) && has(e, 'value')) {
-  // 		setInputMessage(e.value);
-  // 	} else {
-  // 		setInputMessage(e.target.value)
-  // 	}
-  // };
+  const handleLoadQuickAnswer = async (value) => {
+		if (value && value.indexOf("/") === 0) {
+		  try {
+			const { data } = await api.get("/quick-messages/", {
+			  params: { searchParam: inputMessage.substring(1) },
+			});
+      
+			setQuickAnswer(data.records);
+			if (data.records.length > 0) {
+			  setTypeBar(true);
+			} else {
+			  setTypeBar(false);
+			}
+		  } catch (err) {
+        setTypeBar(false);
+		  }
+		} else {
+		  setTypeBar(false);
+		}
+	};
+
+  const handleChangeInput = (e) => {
+   	if (isObject(e) && has(e, 'value')) {
+   		setInputMessage(e.value);
+      handleLoadQuickAnswer(e.value);
+   	} else {
+   		setInputMessage(e.target.value);
+       handleLoadQuickAnswer(e.target.value);
+   	}
+   };
+
+   const handleQuickAnswersClick = (value) => {
+		setInputMessage(value);
+		setTypeBar(false);
+	  };
 
   const handleAddEmoji = (e) => {
     let emoji = e.native;
@@ -695,7 +795,7 @@ const MessageInputCustom = (props) => {
             ticketStatus={ticketStatus}
             inputMessage={inputMessage}
             setInputMessage={setInputMessage}
-            // handleChangeInput={handleChangeInput}
+            handleChangeInput={handleChangeInput}
             handleSendMessage={handleSendMessage}
             handleInputPaste={handleInputPaste}
             disableOption={disableOption}
@@ -711,6 +811,25 @@ const MessageInputCustom = (props) => {
             handleUploadAudio={handleUploadAudio}
             handleStartRecording={handleStartRecording}
           />
+          {typeBar ? (
+          <ul className={classes.messageQuickAnswersWrapper}>
+            {quickAnswers.map((value, index) => {
+              return (
+                <li
+                  className={classes.messageQuickAnswersWrapperItem}
+                  key={index}
+                >
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                  <a onClick={() => handleQuickAnswersClick(value.message)}>
+                    {`${value.shortcode} - ${value.message}`}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <div></div>
+        )}
         </div>
       </Paper>
     );
