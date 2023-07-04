@@ -17,7 +17,7 @@ const App = () => {
         },
         '&::-webkit-scrollbar-thumb': {
           //boxShadow: 'inset 0 0 6px rgba(170, 0, 126, 126)',
-          backgroundColor: '#dd2d2d',
+          backgroundColor: '#2DDD7F',
         },
       },
       palette: {
