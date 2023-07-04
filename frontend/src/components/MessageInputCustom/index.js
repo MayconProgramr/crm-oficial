@@ -412,9 +412,7 @@ const CustomInput = (props) => {
   };
 
   const handleLoadQuickAnswer = async (value) => {
-    console.log('digitei2....'+value);
 		if (value && value.indexOf("/") === 0) {
-      console.log('digitei3....'+value);
 		  try {
 			const { data } = await api.get("/quick-messages/", {
 			  params: { searchParam: inputMessage.substring(1) },
@@ -423,7 +421,6 @@ const CustomInput = (props) => {
 			setQuickAnswer(data.records);
 			if (data.records.length > 0) {
 			  setTypeBar(true);
-        console.log('dados encontrados: '+data.records.length);
 			} else {
 			  setTypeBar(false);
 			}
@@ -541,7 +538,6 @@ const MessageInputCustom = (props) => {
   }, [ticketId, setReplyingMessage]);
 
   const handleLoadQuickAnswer = async (value) => {
-    console.log('digitei....'+value);
 		if (value && value.indexOf("/") === 0) {
 		  try {
 			const { data } = await api.get("/quick-messages/", {
