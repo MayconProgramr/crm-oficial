@@ -33,7 +33,7 @@ import logo from "../assets/zapsimples.png";
 import { socketConnection } from "../services/socket";
 import ChatPopover from "../pages/Chat/ChatPopover";
 
-const drawerWidth = 300;
+const drawerWidth = 270;
 
 const useStyles = makeStyles((theme) => ({
   root: {
