@@ -6,6 +6,8 @@ const messages = {
         toasts: {
           success: "Usuário criado com sucesso! Faça seu login!!!.",
           fail: "Erro ao criar usuário. Verifique os dados informados.",
+          nameExists: "Já existe uma empresa com esse nome!",
+          emailExists: "Já existe uma empresa com esse e-mail!",
         },
         form: {
           name: "Nome",
@@ -245,7 +247,7 @@ const messages = {
           titleUploadMsgDragDrop: "ARRASTE E SOLTE ARQUIVOS NO CAMPO ABAIXO",
           titleFileList: "Lista de arquivo(s)"
         },
-      },      
+      },
       ticketsManager: {
         buttons: {
           newTicket: "Novo",
