@@ -633,8 +633,8 @@ const messages = {
         header: {
           assignedTo: "Atribuído à:",
           buttons: {
-            return: "Retornar",
-            resolve: "Resolver",
+            return: "Colocar novamente na fila",
+            resolve: "Finalizar",
             reopen: "Reabrir",
             accept: "Aceitar",
           },
