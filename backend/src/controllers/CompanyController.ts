@@ -44,6 +44,17 @@ export const index = async (req: Request, res: Response): Promise<Response> => {
   return res.json({ companies, count, hasMore });
 };
 
+export const Exists = async (req: Request, res: Response): Promise<Response> => {
+  const { searchParam, pageNumber } = req.query as IndexQuery;
+
+  const { companies, count, hasMore } = await ListCompaniesService({
+    searchParam,
+    pageNumber
+  });
+
+  return res.json({ count });
+};
+
 export const store = async (req: Request, res: Response): Promise<Response> => {
   const newCompany: CompanyData = req.body;
 
