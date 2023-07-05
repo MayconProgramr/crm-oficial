@@ -665,6 +665,7 @@ const messages = {
         },
         confirmationModal: {
           title: "Deletar o ticket do contato",
+          titleFrom: "do contato",
           message:
             "Atenção! Todas as mensagens relacionadas ao ticket serão perdidas.",
         },
