@@ -166,29 +166,29 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
   },
   messageQuickAnswersWrapper: {
-		margin: 0,
-		position: "absolute",
-		bottom: "50px",
-		background: "#ffffff",
-		padding: "2px",
-		border: "1px solid #CCC",
-		left: 0,
-		width: "100%",
-		"& li": {
-		  listStyle: "none",
-		  "& a": {
-			display: "block",
-			padding: "8px",
-			textOverflow: "ellipsis",
-			overflow: "hidden",
-			maxHeight: "32px",
-			"&:hover": {
-			  background: "#F1F1F1",
-			  cursor: "pointer",
-			},
-		  },
-		},
-	  },
+    margin: 0,
+    position: "absolute",
+    bottom: "50px",
+    background: "#ffffff",
+    padding: "2px",
+    border: "1px solid #CCC",
+    left: 0,
+    width: "100%",
+    "& li": {
+      listStyle: "none",
+      "& a": {
+        display: "block",
+        padding: "8px",
+        textOverflow: "ellipsis",
+        overflow: "hidden",
+        maxHeight: "32px",
+        "&:hover": {
+          background: "#F1F1F1",
+          cursor: "pointer",
+        },
+      },
+    },
+  },
 }));
 
 const EmojiOptions = (props) => {
@@ -219,7 +219,7 @@ const EmojiOptions = (props) => {
 };
 
 const SignSwitch = (props) => {
-  const { width, setSignMessage, signMessage } = props;
+  const { width, setSignMessage, signMessage, disabled } = props;
   if (isWidthUp("md", width)) {
     return (
       <FormControlLabel
@@ -230,6 +230,7 @@ const SignSwitch = (props) => {
           <Switch
             size="small"
             checked={signMessage}
+            disabled={disabled}
             onChange={(e) => {
               setSignMessage(e.target.checked);
             }}
@@ -244,7 +245,7 @@ const SignSwitch = (props) => {
 };
 
 const FileInput = (props) => {
-  const { handleChangeMedias, disableOption } = props;
+  const { handleChangeMedias, disableOption, disabled } = props;
   const classes = useStyles();
   return (
     <>
@@ -252,7 +253,7 @@ const FileInput = (props) => {
         multiple
         type="file"
         id="upload-button"
-        disabled={disableOption()}
+        disabled={disabled}
         className={classes.uploadInput}
         onChange={handleChangeMedias}
       />
@@ -260,7 +261,7 @@ const FileInput = (props) => {
         <IconButton
           aria-label="upload"
           component="span"
-          disabled={disableOption()}
+          disabled={disabled}
         >
           <AttachFileIcon className={classes.sendMessageIcons} />
         </IconButton>
@@ -345,7 +346,7 @@ const CustomInput = (props) => {
     setInputMessage,
     handleSendMessage,
     handleInputPaste,
-    disableOption,
+    disabled,
   } = props;
   const classes = useStyles();
   const [quickMessages, setQuickMessages] = useState([]);
@@ -353,7 +354,7 @@ const CustomInput = (props) => {
   const [popupOpen, setPopupOpen] = useState(false);
 
   const [quickAnswers, setQuickAnswer] = useState([]);
-	const [typeBar, setTypeBar] = useState(false);
+  const [typeBar, setTypeBar] = useState(false);
 
   const { user } = useContext(AuthContext);
 
@@ -412,25 +413,25 @@ const CustomInput = (props) => {
   };
 
   const handleLoadQuickAnswer = async (value) => {
-		if (value && value.indexOf("/") === 0) {
-		  try {
-			const { data } = await api.get("/quick-messages/", {
-			  params: { searchParam: inputMessage.substring(1) },
-			});
-      
-			setQuickAnswer(data.records);
-			if (data.records.length > 0) {
-			  setTypeBar(true);
-			} else {
-			  setTypeBar(false);
-			}
-		  } catch (err) {
+    if (value && value.indexOf("/") === 0) {
+      try {
+        const { data } = await api.get("/quick-messages/", {
+          params: { searchParam: inputMessage.substring(1) },
+        });
+
+        setQuickAnswer(data.records);
+        if (data.records.length > 0) {
+          setTypeBar(true);
+        } else {
+          setTypeBar(false);
+        }
+      } catch (err) {
         setTypeBar(false);
-		  }
-		} else {
-		  setTypeBar(false);
-		}
-	};
+      }
+    } else {
+      setTypeBar(false);
+    }
+  };
 
   const handleQuickAnswersClick = (value) => {
     setInputMessage(value);
@@ -484,13 +485,13 @@ const CustomInput = (props) => {
         onPaste={onPaste}
         onKeyPress={onKeyPress}
         style={{ width: "100%" }}
+        disabled={disabled}
         renderInput={(params) => {
           const { InputLabelProps, InputProps, ...rest } = params;
           return (
             <InputBase
               {...params.InputProps}
               {...rest}
-              disabled={disableOption()}
               inputRef={setInputRef}
               placeholder={renderPlaceholder()}
               multiline
@@ -521,7 +522,7 @@ const MessageInputCustom = (props) => {
   const [signMessage, setSignMessage] = useLocalStorage("signOption", true);
 
   const [quickAnswers, setQuickAnswer] = useState([]);
-	const [typeBar, setTypeBar] = useState(false);
+  const [typeBar, setTypeBar] = useState(false);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -538,40 +539,40 @@ const MessageInputCustom = (props) => {
   }, [ticketId, setReplyingMessage]);
 
   const handleLoadQuickAnswer = async (value) => {
-		if (value && value.indexOf("/") === 0) {
-		  try {
-			const { data } = await api.get("/quick-messages/", {
-			  params: { searchParam: inputMessage.substring(1) },
-			});
-      
-			setQuickAnswer(data.records);
-			if (data.records.length > 0) {
-			  setTypeBar(true);
-			} else {
-			  setTypeBar(false);
-			}
-		  } catch (err) {
+    if (value && value.indexOf("/") === 0) {
+      try {
+        const { data } = await api.get("/quick-messages/", {
+          params: { searchParam: inputMessage.substring(1) },
+        });
+
+        setQuickAnswer(data.records);
+        if (data.records.length > 0) {
+          setTypeBar(true);
+        } else {
+          setTypeBar(false);
+        }
+      } catch (err) {
         setTypeBar(false);
-		  }
-		} else {
-		  setTypeBar(false);
-		}
-	};
+      }
+    } else {
+      setTypeBar(false);
+    }
+  };
 
   const handleChangeInput = (e) => {
-   	if (isObject(e) && has(e, 'value')) {
-   		setInputMessage(e.value);
+    if (isObject(e) && has(e, 'value')) {
+      setInputMessage(e.value);
       handleLoadQuickAnswer(e.value);
-   	} else {
-   		setInputMessage(e.target.value);
-       handleLoadQuickAnswer(e.target.value);
-   	}
+    } else {
+      setInputMessage(e.target.value);
+      handleLoadQuickAnswer(e.target.value);
+    }
   };
 
   const handleQuickAnswersClick = (value) => {
-		setInputMessage(value);
-		setTypeBar(false);
-	};
+    setInputMessage(value);
+    setTypeBar(false);
+  };
 
   const handleAddEmoji = (e) => {
     let emoji = e.native;
@@ -764,7 +765,7 @@ const MessageInputCustom = (props) => {
           />
 
           <FileInput
-            disableOption={disableOption}
+            disabled={disableOption()}
             handleChangeMedias={handleChangeMedias}
           />
 
@@ -772,6 +773,7 @@ const MessageInputCustom = (props) => {
             width={props.width}
             setSignMessage={setSignMessage}
             signMessage={signMessage}
+            disabled={disableOption()}
           />
 
           <CustomInput
@@ -783,7 +785,7 @@ const MessageInputCustom = (props) => {
             handleChangeInput={handleChangeInput}
             handleSendMessage={handleSendMessage}
             handleInputPaste={handleInputPaste}
-            disableOption={disableOption}
+            disabled={disableOption()}
           />
 
           <ActionButtons
@@ -797,24 +799,24 @@ const MessageInputCustom = (props) => {
             handleStartRecording={handleStartRecording}
           />
           {typeBar ? (
-          <ul className={classes.messageQuickAnswersWrapper}>
-            {quickAnswers.map((value, index) => {
-              return (
-                <li
-                  className={classes.messageQuickAnswersWrapperItem}
-                  key={index}
-                >
-                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                  <a onClick={() => handleQuickAnswersClick(value.message)}>
-                    {`${value.shortcode} - ${value.message}`}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        ) : (
-          <div></div>
-        )}
+            <ul className={classes.messageQuickAnswersWrapper}>
+              {quickAnswers.map((value, index) => {
+                return (
+                  <li
+                    className={classes.messageQuickAnswersWrapperItem}
+                    key={index}
+                  >
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a onClick={() => handleQuickAnswersClick(value.message)}>
+                      {`${value.shortcode} - ${value.message}`}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <div></div>
+          )}
         </div>
       </Paper>
     );
