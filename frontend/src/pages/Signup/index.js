@@ -30,18 +30,6 @@ import { i18n } from "../../translate/i18n";
 import { openApi } from "../../services/api";
 import toastError from "../../errors/toastError";
 import moment from "moment";
-// const Copyright = () => {
-// 	return (
-// 		<Typography variant="body2" color="textSecondary" align="center">
-// 			{"Copyleft "}
-// 			<Link color="inherit" href="https://github.com/canove">
-// 				Canove
-// 			</Link>{" "}
-// 			{new Date().getFullYear()}
-// 			{"."}
-// 		</Typography>
-// 	);
-// };
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -65,16 +53,18 @@ const useStyles = makeStyles(theme => ({
 
 const UserSchema = Yup.object().shape({
 	name: Yup.string()
-		.min(2, "Too Short!")
-		.max(50, "Too Long!")
-		.required("Required"),
-	password: Yup.string().min(5, "Too Short!").max(50, "Too Long!"),
-	email: Yup.string().email("Invalid email").required("Required"),
+		.min(2, "Muito curto!")
+		.max(50, "Muito longo!")
+		.required("Obrigatório"),
+	password: Yup.string().min(5, "Muito curto!").max(50, "Muito longo!"),
+	email: Yup.string().email("E-mail inválido").required("Obrigatório"),
 });
 
 const SignUp = () => {
 	const classes = useStyles();
 	const history = useHistory();
+	const [pageNumber, setPageNumber] = useState(1);
+	const [searchParam, setSearchParam] = useState("");
 	let companyId = null
 
 	const params = qs.parse(window.location.search)
@@ -87,17 +77,26 @@ const SignUp = () => {
 	const [user] = useState(initialState);
 	const dueDate = moment().add(3, "day").format();
 	const handleSignUp = async values => {
-		Object.assign(values, { recurrence: "MENSAL" });
-		Object.assign(values, { dueDate: dueDate });
-		Object.assign(values, { status: "t" });
-		Object.assign(values, { campaignsEnabled: true });
-		try {
-			await openApi.post("/companies/cadastro", values);
-			toast.success(i18n.t("signup.toasts.success"));
-			history.push("/login");
-		} catch (err) {
-			console.log(err);
-			toastError(err);
+
+		setSearchParam(values.email);
+		const { data } = await openApi.get("/companiesExists", {
+			params: { searchParam, pageNumber },
+		});
+		if (data.count > 0) {
+			toastError(i18n.t("signup.toasts.emailExists"));
+		} else {
+			Object.assign(values, { recurrence: "MENSAL" });
+			Object.assign(values, { dueDate: dueDate });
+			Object.assign(values, { status: "t" });
+			Object.assign(values, { campaignsEnabled: true });
+			try {
+				await openApi.post("/companies/cadastro", values);
+				toast.success(i18n.t("signup.toasts.success"));
+				history.push("/login");
+			} catch (err) {
+				console.log(err);
+				toastError(i18n.t("signup.toasts.nameExists"));
+			}
 		}
 	};
 
