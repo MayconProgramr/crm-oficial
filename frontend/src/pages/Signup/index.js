@@ -79,7 +79,7 @@ const SignUp = () => {
 	const handleSignUp = async values => {
 
 		setSearchParam(values.email);
-		const { data } = await openApi.get("/companiesExists", {
+		const { data } = await openApi.get("/companies/exists", {
 			params: { searchParam, pageNumber },
 		});
 		if (data.count > 0) {
