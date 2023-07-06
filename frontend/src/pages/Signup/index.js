@@ -79,25 +79,25 @@ const SignUp = () => {
 	const handleSignUp = async values => {
 
 		setSearchParam(values.email);
-		const { data } = await openApi.get("/companies/exists", {
+		/*const { data } = await openApi.get("/companies/exists", {
 			params: { searchParam, pageNumber },
 		});
 		if (data.count > 0) {
 			toastError(i18n.t("signup.toasts.emailExists"));
-		} else {
-			Object.assign(values, { recurrence: "MENSAL" });
-			Object.assign(values, { dueDate: dueDate });
-			Object.assign(values, { status: "t" });
-			Object.assign(values, { campaignsEnabled: true });
-			try {
-				await openApi.post("/companies/cadastro", values);
-				toast.success(i18n.t("signup.toasts.success"));
-				history.push("/login");
-			} catch (err) {
-				console.log(err);
-				toastError(i18n.t("signup.toasts.nameExists"));
-			}
+		} else {*/
+		Object.assign(values, { recurrence: "MENSAL" });
+		Object.assign(values, { dueDate: dueDate });
+		Object.assign(values, { status: "t" });
+		Object.assign(values, { campaignsEnabled: true });
+		try {
+			await openApi.post("/companies/cadastro", values);
+			toast.success(i18n.t("signup.toasts.success"));
+			history.push("/login");
+		} catch (err) {
+			console.log(err);
+			toastError(i18n.t("signup.toasts.nameExists"));
 		}
+		//}
 	};
 
 	const [plans, setPlans] = useState([]);
