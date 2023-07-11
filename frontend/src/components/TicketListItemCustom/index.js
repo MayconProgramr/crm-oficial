@@ -272,6 +272,7 @@ const TicketListItemCustom = ({ ticket }) => {
       setLoading(false);
     }
     history.push(`/tickets/${ticket.uuid}`);
+    window.location.reload();
   };
 
   const handleSelectTicket = (ticket) => {
