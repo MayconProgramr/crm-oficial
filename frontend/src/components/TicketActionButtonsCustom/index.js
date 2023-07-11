@@ -67,6 +67,7 @@ const TicketActionButtonsCustom = ({ ticket }) => {
 			} else {
 				setCurrentTicket({ id: null, code: null })
 				history.push("/tickets");
+				window.location.reload();
 			}
 		} catch (err) {
 			setLoading(false);
