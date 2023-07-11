@@ -76,7 +76,7 @@ const TicketActionButtonsCustom = ({ ticket }) => {
 
 	return (
 		<div className={classes.actionButtons}>
-			{ticket.status === "closed" && (
+			{/*ticket.status === "closed" && (
 				<ButtonWithSpinner
 					loading={loading}
 					startIcon={<Replay />}
@@ -85,7 +85,7 @@ const TicketActionButtonsCustom = ({ ticket }) => {
 				>
 					{i18n.t("messagesList.header.buttons.reopen")}
 				</ButtonWithSpinner>
-			)}
+			)*/}
 			{ticket.status === "open" && (
 				<>
 					{/*<Tooltip title={i18n.t("messagesList.header.buttons.return")}>

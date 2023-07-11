@@ -63,7 +63,7 @@ const TicketActionButtons = ({ ticket }) => {
 
 	return (
 		<div className={classes.actionButtons}>
-			{ticket.status === "closed" && (
+			{/*ticket.status === "closed" && (
 				<ButtonWithSpinner
 					loading={loading}
 					startIcon={<Replay />}
@@ -72,7 +72,7 @@ const TicketActionButtons = ({ ticket }) => {
 				>
 					{i18n.t("messagesList.header.buttons.reopen")}
 				</ButtonWithSpinner>
-			)}
+			)*/}
 			{ticket.status === "open" && (
 				<>
 					<ButtonWithSpinner

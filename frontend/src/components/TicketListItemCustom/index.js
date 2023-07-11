@@ -339,10 +339,10 @@ const TicketListItemCustom = ({ ticket }) => {
           {ticket.status !== "pending" ?
             <Avatar
               style={{
-                marginTop: "-20px",
+                marginTop: "0px",
                 marginLeft: "-3px",
-                width: "55px",
-                height: "55px",
+                width: "65px",
+                height: "65px",
                 borderRadius: "10%",
               }}
               src={ticket?.contact?.profilePicUrl}
@@ -350,10 +350,10 @@ const TicketListItemCustom = ({ ticket }) => {
             :
             <Avatar
               style={{
-                marginTop: "-30px",
-                marginLeft: "0px",
-                width: "50px",
-                height: "50px",
+                marginTop: "-15px",
+                marginLeft: "-5px",
+                width: "60px",
+                height: "60px",
                 borderRadius: "10%",
               }}
               src={ticket?.contact?.profilePicUrl}
@@ -362,7 +362,6 @@ const TicketListItemCustom = ({ ticket }) => {
         </ListItemAvatar>
         <ListItemText
           disableTypography
-
           primary={
             <span className={classes.contactNameWrapper}>
               <Typography
@@ -456,7 +455,7 @@ const TicketListItemCustom = ({ ticket }) => {
           {ticket.status === "pending" && (
             <ButtonWithSpinner
               //color="primary"
-              style={{ backgroundColor: 'green', color: 'white', padding: '0px', bottom: '17px', borderRadius: '0px', left: '8px', fontSize: '0.6rem' }}
+              style={{ backgroundColor: 'green', color: 'white', padding: '0px', bottom: '0px', borderRadius: '0px', left: '8px', fontSize: '0.6rem' }}
               variant="contained"
               className={classes.acceptButton}
               size="small"
@@ -467,7 +466,7 @@ const TicketListItemCustom = ({ ticket }) => {
             </ButtonWithSpinner>
 
           )}
-          {(ticket.status !== "closed") && (
+          {/*(ticket.status !== "closed") && (
             <ButtonWithSpinner
               //color="primary"
               style={{ backgroundColor: 'red', color: 'white', padding: '0px', bottom: '0px', borderRadius: '0px', left: '8px', fontSize: '0.6rem' }}
@@ -480,8 +479,8 @@ const TicketListItemCustom = ({ ticket }) => {
               {i18n.t("ticketsList.buttons.closed")}
             </ButtonWithSpinner>
 
-          )}
-          {(ticket.status === "closed") && (
+          )*/}
+          {/*(ticket.status === "closed") && (
             <ButtonWithSpinner
               //color="primary"
               style={{ backgroundColor: 'red', color: 'white', padding: '0px', bottom: '0px', borderRadius: '0px', left: '8px', fontSize: '0.6rem' }}
@@ -494,11 +493,11 @@ const TicketListItemCustom = ({ ticket }) => {
               {i18n.t("ticketsList.buttons.reopen")}
             </ButtonWithSpinner>
 
-          )}
+          )*/}
         </span>
       </ListItem>
 
-      <Divider variant="inset" component="li" />
+      <Divider variant="root" component="li" />
     </React.Fragment>
   );
 };
