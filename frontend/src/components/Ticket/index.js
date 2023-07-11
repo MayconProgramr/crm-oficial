@@ -176,9 +176,10 @@ const Ticket = () => {
           {renderTicketInfo()}
           <TicketActionButtons ticket={ticket} />
         </TicketHeader>
-        <Paper>
+        {ticket.status != "closed" ? (<Paper>
           <TagsContainer ticket={ticket} />
         </Paper>
+        ) : <div></div>}
         <ReplyMessageProvider>{renderMessagesList()}</ReplyMessageProvider>
       </Paper>
       <ContactDrawer
