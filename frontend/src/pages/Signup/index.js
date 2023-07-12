@@ -58,13 +58,12 @@ const UserSchema = Yup.object().shape({
 		.required("Obrigatório"),
 	password: Yup.string().min(5, "Muito curto!").max(50, "Muito longo!"),
 	email: Yup.string().email("E-mail inválido").required("Obrigatório"),
+	phone: Yup.string().min(7, "Telefone inválido!").max(12, "Telefone inválido!")
 });
 
 const SignUp = () => {
 	const classes = useStyles();
 	const history = useHistory();
-	const [pageNumber, setPageNumber] = useState(1);
-	const [searchParam, setSearchParam] = useState("");
 	let companyId = null
 
 	const params = qs.parse(window.location.search)
@@ -72,19 +71,12 @@ const SignUp = () => {
 		companyId = params.companyId
 	}
 
-	const initialState = { name: "", email: "", password: "", planId: "", };
+	const initialState = { name: "", email: "", password: "", planId: "", phone: "" };
 
 	const [user] = useState(initialState);
 	const dueDate = moment().add(3, "day").format();
 	const handleSignUp = async values => {
 
-		setSearchParam(values.email);
-		/*const { data } = await openApi.get("/companies/exists", {
-			params: { searchParam, pageNumber },
-		});
-		if (data.count > 0) {
-			toastError(i18n.t("signup.toasts.emailExists"));
-		} else {*/
 		Object.assign(values, { recurrence: "MENSAL" });
 		Object.assign(values, { dueDate: dueDate });
 		Object.assign(values, { status: "t" });
@@ -95,7 +87,7 @@ const SignUp = () => {
 			history.push("/login");
 		} catch (err) {
 			console.log(err);
-			toastError(i18n.t("signup.toasts.nameExists"));
+			toastError(err);
 		}
 		//}
 	};
@@ -162,6 +154,21 @@ const SignUp = () => {
 										error={touched.email && Boolean(errors.email)}
 										helperText={touched.email && errors.email}
 										autoComplete="email"
+										required
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<Field
+										as={TextField}
+										variant="outlined"
+										fullWidth
+										id="phone"
+										label="Telefone"
+										type="number"
+										name="phone"
+										error={touched.phone && Boolean(errors.phone)}
+										helperText={touched.phone && errors.phone}
+										autoComplete="phone"
 										required
 									/>
 								</Grid>

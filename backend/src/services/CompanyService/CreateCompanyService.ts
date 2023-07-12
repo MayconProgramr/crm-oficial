@@ -33,11 +33,11 @@ const CreateCompanyService = async (
 
   const companySchema = Yup.object().shape({
     name: Yup.string()
-      .min(2, "ERR_COMPANY_INVALID_NAME")
-      .required("ERR_COMPANY_INVALID_NAME")
+      .min(2, "Muito curto!")
+      .required("Obrigatório")
       .test(
         "Check-unique-name",
-        "ERR_COMPANY_NAME_ALREADY_EXISTS",
+        "Já existe uma empresa com esse nome!",
         async value => {
           if (value) {
             const companyWithSameName = await Company.findOne({
@@ -48,11 +48,23 @@ const CreateCompanyService = async (
           }
           return false;
         }
-      )
+      ),
+    email: Yup.string()
+      .required("Obrigatório")
+      .test("Check-unique-email", "Já existe uma empresa com esse e-mail!", async (value) => {
+        if (value) {
+          const companyWithSameEmail = await Company.findOne({
+            where: { email: value },
+          });
+
+          return !companyWithSameEmail;
+        }
+        return false;
+      }),
   });
 
   try {
-    await companySchema.validate({ name });
+    await companySchema.validate({ name, email });
   } catch (err: any) {
     throw new AppError(err.message);
   }
