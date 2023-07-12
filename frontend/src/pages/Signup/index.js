@@ -31,6 +31,9 @@ import { openApi } from "../../services/api";
 import toastError from "../../errors/toastError";
 import moment from "moment";
 
+import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
 const useStyles = makeStyles(theme => ({
 	paper: {
 		marginTop: theme.spacing(8),
@@ -61,10 +64,17 @@ const UserSchema = Yup.object().shape({
 	phone: Yup.string().min(7, "Telefone inválido!").max(12, "Telefone inválido!")
 });
 
+const eyeIconStyles = {
+	fontSize: '24px', // Tamanho do ícone em pixels
+	padding: '4px', // Padding ao redor do ícone em pixels
+};
+
 const SignUp = () => {
 	const classes = useStyles();
 	const history = useHistory();
 	let companyId = null
+	const [showPassword, setShowPassword] = useState(false);
+	const [isHovered, setIsHovered] = useState(false);
 
 	const params = qs.parse(window.location.search)
 	if (params.companyId !== undefined) {
@@ -103,6 +113,17 @@ const SignUp = () => {
 		fetchData();
 	}, []);
 
+	const togglePasswordVisibility = () => {
+		setShowPassword(!showPassword);
+	};
+
+	const handleMouseEnter = () => {
+		setIsHovered(true);
+	};
+
+	const handleMouseLeave = () => {
+		setIsHovered(false);
+	};
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -181,10 +202,25 @@ const SignUp = () => {
 										error={touched.password && Boolean(errors.password)}
 										helperText={touched.password && errors.password}
 										label={i18n.t("signup.form.password")}
-										type="password"
+										type={showPassword ? "text" : "password"}
 										id="password"
 										autoComplete="current-password"
 										required
+										InputProps={{
+											endAdornment: (
+												<InputAdornment position="end">
+													<span onClick={togglePasswordVisibility}
+														onMouseEnter={handleMouseEnter}
+														onMouseLeave={handleMouseLeave}
+														style={{
+															cursor: isHovered ? 'pointer' : 'default',
+															...eyeIconStyles, // Aplica os estilos personalizados
+														}}>
+														{showPassword ? <RiEyeOffFill /> : <RiEyeFill />}
+													</span>
+												</InputAdornment>
+											),
+										}}
 									/>
 								</Grid>
 								<Grid item xs={12}>

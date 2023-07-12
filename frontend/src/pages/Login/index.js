@@ -16,19 +16,8 @@ import { i18n } from "../../translate/i18n";
 import { AuthContext } from "../../context/Auth/AuthContext";
 import logo from "../../assets/zapsimples.png";
 
-
-// const Copyright = () => {
-// 	return (
-// 		<Typography variant="body2" color="textSecondary" align="center">
-// 			{"Copyleft "}
-// 			<Link color="inherit" href="https://github.com/canove">
-// 				Canove
-// 			</Link>{" "}
-// 			{new Date().getFullYear()}
-// 			{"."}
-// 		</Typography>
-// 	);
-// };
+import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -50,9 +39,15 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
+const eyeIconStyles = {
+	fontSize: '24px', // Tamanho do ícone em pixels
+	padding: '4px', // Padding ao redor do ícone em pixels
+};
+
 const Login = () => {
 	const classes = useStyles();
-
+	const [showPassword, setShowPassword] = useState(false);
+	const [isHovered, setIsHovered] = useState(false);
 	const [user, setUser] = useState({ email: "", password: "" });
 
 	const { handleLogin } = useContext(AuthContext);
@@ -64,6 +59,18 @@ const Login = () => {
 	const handlSubmit = e => {
 		e.preventDefault();
 		handleLogin(user);
+	};
+
+	const togglePasswordVisibility = () => {
+		setShowPassword(!showPassword);
+	};
+
+	const handleMouseEnter = () => {
+		setIsHovered(true);
+	};
+
+	const handleMouseLeave = () => {
+		setIsHovered(false);
 	};
 
 	return (
@@ -97,11 +104,26 @@ const Login = () => {
 						fullWidth
 						name="password"
 						label={i18n.t("login.form.password")}
-						type="password"
+						type={showPassword ? "text" : "password"}
 						id="password"
 						value={user.password}
 						onChange={handleChangeInput}
 						autoComplete="current-password"
+						InputProps={{
+							endAdornment: (
+								<InputAdornment position="end">
+									<span onClick={togglePasswordVisibility}
+										onMouseEnter={handleMouseEnter}
+										onMouseLeave={handleMouseLeave}
+										style={{
+											cursor: isHovered ? 'pointer' : 'default',
+											...eyeIconStyles, // Aplica os estilos personalizados
+										}}>
+										{showPassword ? <RiEyeOffFill /> : <RiEyeFill />}
+									</span>
+								</InputAdornment>
+							),
+						}}
 					/>
 					<Button
 						type="submit"
