@@ -4,7 +4,7 @@ import Setting from "../../models/Setting";
 
 const FindAllCompanyService = async (): Promise<Company[]> => {
   const companies = await Company.findAll({
-    order: [["name", "ASC"]],
+    order: [["id", "ASC"]],
     include: [
       { model: Plan, as: "plan", attributes: ["id", "name", "value"] },
       { model: Setting, as: "settings" }
