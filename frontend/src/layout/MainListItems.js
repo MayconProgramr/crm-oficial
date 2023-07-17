@@ -364,22 +364,24 @@ const MainListItems = (props) => {
               primary={i18n.t("mainDrawer.listItems.users")}
               icon={<PeopleAltOutlinedIcon />}
             />
-            <ListItemLink
-              to="/messages-api"
-              primary={i18n.t("mainDrawer.listItems.messagesAPI")}
-              icon={<CodeRoundedIcon />}
-            />
+            {user.super && (
               <ListItemLink
-                to="/financeiro"
-                primary={i18n.t("mainDrawer.listItems.financeiro")}
-                icon={<LocalAtmIcon />}
+                to="/messages-api"
+                primary={i18n.t("mainDrawer.listItems.messagesAPI")}
+                icon={<CodeRoundedIcon />}
               />
+            )}
+            <ListItemLink
+              to="/financeiro"
+              primary={i18n.t("mainDrawer.listItems.financeiro")}
+              icon={<LocalAtmIcon />}
+            />
             <ListItemLink
               to="/settings"
               primary={i18n.t("mainDrawer.listItems.settings")}
               icon={<SettingsOutlinedIcon />}
             />
-{/*             <ListItemLink
+            {/*             <ListItemLink
               to="/subscription"
               primary="Assinatura"
               icon={<PaymentIcon />}
