@@ -17,7 +17,7 @@ import { grey, blue } from "@material-ui/core/colors";
 import { Tabs, Tab } from "@material-ui/core";
 
 //import 'react-toastify/dist/ReactToastify.css';
- 
+
 const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
@@ -193,7 +193,7 @@ export default function Options(props) {
       pauseOnHover: false,
       draggable: true,
       theme: "light",
-      });
+    });
     setLoadingScheduleType(false);
     if (typeof scheduleTypeChanged === "function") {
       scheduleTypeChanged(value);
@@ -339,6 +339,7 @@ export default function Options(props) {
             >
               <MenuItem value={"disabled"}>Desabilitado</MenuItem>
               <MenuItem value={"queue"}>Gerenciamento Por Fila</MenuItem>
+              <MenuItem value={"company"}>Gerenciamento Por Empresa</MenuItem>
             </Select>
             <FormHelperText>
               {loadingScheduleType && "Atualizando..."}
@@ -385,7 +386,7 @@ export default function Options(props) {
             </FormHelperText>
           </FormControl>
         </Grid>
-        <Grid xs={12} sm={6} md={4} item>
+        {/*<Grid xs={12} sm={6} md={4} item>
           <FormControl className={classes.selectContainer}>
             <InputLabel id="chatbot-type-label">
               Tipo Chatbot
@@ -405,7 +406,7 @@ export default function Options(props) {
               {loadingChatbotType && "Atualizando..."}
             </FormHelperText>
           </FormControl>
-        </Grid>
+        </Grid>*/}
       </Grid>
       <Grid spacing={3} container>
         <Tabs
