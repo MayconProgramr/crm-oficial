@@ -86,6 +86,9 @@ class Ticket extends Model<Ticket> {
   @Column
   queueOptionId: number;
 
+  @Column
+  protocolo: string;
+
   @BelongsTo(() => QueueOption)
   queueOption: QueueOption;
 
