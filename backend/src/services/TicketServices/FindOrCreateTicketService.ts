@@ -102,6 +102,16 @@ const FindOrCreateTicketService = async (
     where: { id: whatsappId }
   });
 
+  function gerarNumeroProtocolo(): string {
+    const timestamp = Date.now().toString();
+    const randomNumber = Math.floor(Math.random() * 9000000000) + 1000000000;
+
+    const protocolo = timestamp + randomNumber.toString();
+    const token = protocolo.slice(0, 14);
+
+    return token;
+  }
+
   if (!ticket) {
     ticket = await Ticket.create({
       contactId: groupContact ? groupContact.id : contact.id,
@@ -110,8 +120,10 @@ const FindOrCreateTicketService = async (
       unreadMessages,
       whatsappId,
       whatsapp,
-      companyId
+      companyId,
+      protocolo: gerarNumeroProtocolo()
     });
+
     await FindOrCreateATicketTrakingService({
       ticketId: ticket.id,
       companyId,
