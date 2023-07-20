@@ -264,7 +264,7 @@ const messages = {
           message: "Mensagem de",
         },
         tabs: {
-          open: { title: "Abertas" },
+          open: { title: "Abertos" },
           closed: { title: "Resolvidos" },
           search: { title: "Busca" },
         },
@@ -287,11 +287,11 @@ const messages = {
         },
       },
       ticketsList: {
-        pendingHeader: "Aguardando",
-        assignedHeader: "Atendendo",
+        pendingHeader: "Em espera",
+        assignedHeader: "Meus tickets",
         noTicketsTitle: "Nada aqui!",
         noTicketsMessage:
-          "Nenhum atendimento encontrado com esse status ou termo pesquisado",
+          "Nenhum ticket encontrado com esse filtro ou termo pesquisado",
         buttons: {
           accept: "Aceitar",
           closed: "Finalizar",
@@ -631,7 +631,7 @@ const messages = {
       },
       messagesList: {
         header: {
-          assignedTo: "Atribuído à:",
+          assignedTo: "Atendente:",
           buttons: {
             return: "Colocar novamente na fila",
             resolve: "Finalizar",
