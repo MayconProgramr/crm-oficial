@@ -52,7 +52,7 @@ function ListItemLink(props) {
   return (
     <li>
       <ListItem button component={renderLink} className={className}>
-        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+        {icon ? <ListItemIcon style={{ minWidth: "40px" }}>{icon}</ListItemIcon> : null}
         <ListItemText primary={primary} />
       </ListItem>
     </li>
@@ -291,7 +291,7 @@ const MainListItems = (props) => {
                   button
                   onClick={() => setOpenCampaignSubmenu((prev) => !prev)}
                 >
-                  <ListItemIcon>
+                  <ListItemIcon style={{ minWidth: "40px" }}>
                     <EventAvailableIcon />
                   </ListItemIcon>
                   <ListItemText
@@ -311,7 +311,7 @@ const MainListItems = (props) => {
                 >
                   <List component="div" disablePadding>
                     <ListItem onClick={() => history.push("/campaigns")} button>
-                      <ListItemIcon>
+                      <ListItemIcon style={{ minWidth: "40px" }}>
                         <ListIcon />
                       </ListItemIcon>
                       <ListItemText primary="Listagem" />
@@ -320,7 +320,7 @@ const MainListItems = (props) => {
                       onClick={() => history.push("/contact-lists")}
                       button
                     >
-                      <ListItemIcon>
+                      <ListItemIcon style={{ minWidth: "40px" }}>
                         <PeopleIcon />
                       </ListItemIcon>
                       <ListItemText primary="Listas de Contatos" />
@@ -329,7 +329,7 @@ const MainListItems = (props) => {
                       onClick={() => history.push("/campaigns-config")}
                       button
                     >
-                      <ListItemIcon>
+                      <ListItemIcon style={{ minWidth: "40px" }}>
                         <SettingsOutlinedIcon />
                       </ListItemIcon>
                       <ListItemText primary="Configurações" />
