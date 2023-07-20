@@ -321,6 +321,7 @@ const TicketsManagerTabs = () => {
           variant="fullWidth"
         >
           <Tab
+            style={{ textTransform: "initial" }}
             label={
               <Badge
                 className={classes.badge}
@@ -333,6 +334,7 @@ const TicketsManagerTabs = () => {
             value={"open"}
           />
           <Tab
+            style={{ textTransform: "initial" }}
             label={
               <Badge
                 className={classes.badge}

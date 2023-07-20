@@ -279,7 +279,7 @@ const TicketsList = ({
         <List style={{ paddingTop: 0 }}>
           {status === "open" && (
             <ListSubheader className={classes.ticketsListHeader}>
-              <div>
+              <div style="text-transform: initial;">
                 {i18n.t("ticketsList.assignedHeader")}
                 <span className={classes.ticketsCount}>
                   {ticketsList.length}
