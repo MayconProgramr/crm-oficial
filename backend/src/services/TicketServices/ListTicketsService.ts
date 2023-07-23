@@ -124,6 +124,7 @@ const ListTicketsService = async ({
           )
         },
         { "$contact.number$": { [Op.like]: `%${sanitizedSearchParam}%` } },
+        { "protocolo": { [Op.like]: `%${sanitizedSearchParam}%` } },
         {
           "$message.body$": where(
             fn("LOWER", col("body")),
