@@ -89,13 +89,13 @@ const QueueModal = ({ open, onClose, queueId }) => {
   const greetingRef = useRef();
 
   const [schedules, setSchedules] = useState([
-    { weekday: "Segunda-feira",weekdayEn: "monday",startTime: "08:00",endTime: "18:00",},
-    { weekday: "Terça-feira",weekdayEn: "tuesday",startTime: "08:00",endTime: "18:00",},
-    { weekday: "Quarta-feira",weekdayEn: "wednesday",startTime: "08:00",endTime: "18:00",},
-    { weekday: "Quinta-feira",weekdayEn: "thursday",startTime: "08:00",endTime: "18:00",},
-    { weekday: "Sexta-feira", weekdayEn: "friday",startTime: "08:00",endTime: "18:00",},
-    { weekday: "Sábado", weekdayEn: "saturday",startTime: "08:00",endTime: "12:00",},
-    { weekday: "Domingo", weekdayEn: "sunday",startTime: "00:00",endTime: "00:00",},
+    { weekday: "Segunda-feira", weekdayEn: "monday", startTime: "08:00", endTime: "18:00", },
+    { weekday: "Terça-feira", weekdayEn: "tuesday", startTime: "08:00", endTime: "18:00", },
+    { weekday: "Quarta-feira", weekdayEn: "wednesday", startTime: "08:00", endTime: "18:00", },
+    { weekday: "Quinta-feira", weekdayEn: "thursday", startTime: "08:00", endTime: "18:00", },
+    { weekday: "Sexta-feira", weekdayEn: "friday", startTime: "08:00", endTime: "18:00", },
+    { weekday: "Sábado", weekdayEn: "saturday", startTime: "08:00", endTime: "12:00", },
+    { weekday: "Domingo", weekdayEn: "sunday", startTime: "00:00", endTime: "00:00", },
   ]);
 
   useEffect(() => {
@@ -144,7 +144,7 @@ const QueueModal = ({ open, onClose, queueId }) => {
       } else {
         await api.post("/queue", { ...values, schedules });
       }
-      toast.success("Queue saved successfully");
+      toast.success("Fila salva com sucesso");
       handleClose();
     } catch (err) {
       toastError(err);
@@ -253,45 +253,45 @@ const QueueModal = ({ open, onClose, queueId }) => {
                       }}
                     />
                     <div style={{ marginTop: 5 }}>
-                          <Field
-                            as={TextField}
-                            label={i18n.t("queueModal.form.greetingMessage")}
-                            type="greetingMessage"
-                            multiline
-                            inputRef={greetingRef}
-                            rows={5}
-                            fullWidth
-                            name="greetingMessage"
-                            error={
-                              touched.greetingMessage &&
-                              Boolean(errors.greetingMessage)
-                            }
-                            helperText={
-                              touched.greetingMessage && errors.greetingMessage
-                            }
-                            variant="outlined"
-                            margin="dense"
-                          />
-                        {schedulesEnabled && (
-                            <Field
-                              as={TextField}
-                              label={i18n.t("queueModal.form.outOfHoursMessage")}
-                              type="outOfHoursMessage"
-                              multiline
-                              rows={5}
-                              fullWidth
-                              name="outOfHoursMessage"
-                              error={
-                                touched.outOfHoursMessage &&
-                                Boolean(errors.outOfHoursMessage)
-                              }
-                              helperText={
-                                touched.outOfHoursMessage && errors.outOfHoursMessage
-                              }
-                              variant="outlined"
-                              margin="dense"
-                            />
-                        )}
+                      <Field
+                        as={TextField}
+                        label={i18n.t("queueModal.form.greetingMessage")}
+                        type="greetingMessage"
+                        multiline
+                        inputRef={greetingRef}
+                        rows={5}
+                        fullWidth
+                        name="greetingMessage"
+                        error={
+                          touched.greetingMessage &&
+                          Boolean(errors.greetingMessage)
+                        }
+                        helperText={
+                          touched.greetingMessage && errors.greetingMessage
+                        }
+                        variant="outlined"
+                        margin="dense"
+                      />
+                      {schedulesEnabled && (
+                        <Field
+                          as={TextField}
+                          label={i18n.t("queueModal.form.outOfHoursMessage")}
+                          type="outOfHoursMessage"
+                          multiline
+                          rows={5}
+                          fullWidth
+                          name="outOfHoursMessage"
+                          error={
+                            touched.outOfHoursMessage &&
+                            Boolean(errors.outOfHoursMessage)
+                          }
+                          helperText={
+                            touched.outOfHoursMessage && errors.outOfHoursMessage
+                          }
+                          variant="outlined"
+                          margin="dense"
+                        />
+                      )}
                     </div>
                     <QueueOptions queueId={queueId} />
                   </DialogContent>
