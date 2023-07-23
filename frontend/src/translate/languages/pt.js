@@ -494,7 +494,7 @@ const messages = {
         },
         table: {
           priority: "Prioridade",
-          title: "Title",
+          title: "Titulo",
           text: "Texto",
           mediaName: "Arquivo",
           status: "Status",
@@ -507,7 +507,7 @@ const messages = {
           readonly: "Apenas Visualização",
           form: {
             priority: "Prioridade",
-            title: "Title",
+            title: "Titulo",
             text: "Texto",
             mediaPath: "Arquivo",
             status: "Status",
@@ -643,7 +643,7 @@ const messages = {
       messagesInput: {
         placeholderOpen: "Digite uma mensagem",
         placeholderClosed:
-          "Reabra ou aceite esse ticket para enviar uma mensagem.",
+          "Esse ticket já esta finalizado, não é possível enviar mensagem.",
         signMessage: "Assinar",
       },
       contactDrawer: {
