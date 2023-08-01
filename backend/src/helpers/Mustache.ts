@@ -1,5 +1,6 @@
 import Mustache from "mustache";
 import Contact from "../models/Contact";
+import Ticket from "../models/Ticket";
 
 export const greeting = (): string => {
   const greetings = ["Boa madrugada", "Bom dia", "Boa tarde", "Boa noite"];
@@ -8,7 +9,7 @@ export const greeting = (): string => {
   return greetings[(h / 6) >> 0];
 };
 
-export default (body: string, contact: Contact): string => {
+export default (body: string, contact: Contact, ticket?: Ticket): string => {
   let ms = "";
 
   const Hr = new Date();
@@ -33,7 +34,7 @@ export default (body: string, contact: Contact): string => {
     ms = "Boa madrugada";
   }
 
-  const protocol = yy + mm + dd + String(hh) + min + ss;
+  const protocol = ticket ? ticket.protocolo : yy + mm + dd + String(hh) + min + ss;
 
   const hora = `${hh}:${min}:${ss}`;
 
