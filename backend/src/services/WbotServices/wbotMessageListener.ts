@@ -443,13 +443,13 @@ const getContactMessage = async (msg: proto.IWebMessageInfo, wbot: Session) => {
 
   return isGroup
     ? {
-        id: getSenderMessage(msg, wbot),
-        name: msg.pushName
-      }
+      id: getSenderMessage(msg, wbot),
+      name: msg.pushName
+    }
     : {
-        id: msg.key.remoteJid,
-        name: msg.key.fromMe ? rawNumber : msg.pushName
-      };
+      id: msg.key.remoteJid,
+      name: msg.key.fromMe ? rawNumber : msg.pushName
+    };
 };
 
 const downloadMedia = async (msg: proto.IWebMessageInfo) => {
@@ -537,7 +537,7 @@ const verifyContact = async (
   wbot: Session,
   companyId: number
 ): Promise<Contact> => {
-  
+
   let profilePicUrl: string;
   try {
     profilePicUrl = await wbot.profilePictureUrl(msgContact.id);
@@ -555,7 +555,7 @@ const verifyContact = async (
   };
 
 
-  const contact = CreateOrUpdateContactService(contactData); 
+  const contact = CreateOrUpdateContactService(contactData);
 
   return contact;
 };
@@ -666,7 +666,7 @@ export const verifyMessage = async (
   ticket: Ticket,
   contact: Contact
 ) => {
-  
+
   const io = getIO();
   const quotedMsg = await verifyQuotedMessage(msg);
   const body = getBodyMessage(msg);
@@ -685,7 +685,7 @@ export const verifyMessage = async (
     participant: msg.key.participant,
     dataJson: JSON.stringify(msg)
   };
-  
+
   await ticket.update({
     lastMessage: body
   });
@@ -871,7 +871,7 @@ const verifyQueue = async (
 
 
     const textMessage = {
-      text: formatBody(`\u200e${greetingMessage}\n\n${options}`, contact),
+      text: formatBody(`\u200e${greetingMessage}\n\n${options}`, contact, ticket),
     };
 
     const sendMsg = await wbot.sendMessage(
@@ -1084,7 +1084,7 @@ const handleChartbot = async (
           text: "\u200eAguarde, você será atendido em instantes."
         }
       );
-  
+
       verifyMessage(sentMessage, ticket, ticket.contact);
       return;
     } else if (!isNil(queue) && !isNil(ticket.queueOptionId) && messageBody == "0") {
@@ -1112,14 +1112,14 @@ const handleChartbot = async (
       if (option) {
         await ticket.update({ queueOptionId: option?.id });
       }
-    } else if (!isNil(queue) && isNil(ticket.queueOptionId) && !dontReadTheFirstQuestion ) {
+    } else if (!isNil(queue) && isNil(ticket.queueOptionId) && !dontReadTheFirstQuestion) {
       // não linha a primeira pergunta
       const option = queue?.options.find(o => o.option == messageBody);
       if (option) {
         await ticket.update({ queueOptionId: option?.id });
       }
     }
-  
+
     await ticket.reload();
 
     if (!isNil(queue) && isNil(ticket.queueOptionId)) {
@@ -1132,11 +1132,11 @@ const handleChartbot = async (
           ["createdAt", "ASC"]
         ]
       });
-  
+
       if (queue.greetingMessage) {
         body = `${queue.greetingMessage}\n\n`;
       }
-  
+
       queueOptions.forEach((option, i) => {
         if (queueOptions.length - 1 > i) {
           options += `*[ ${option.option} ]* - ${option.title}\n`;
@@ -1144,19 +1144,19 @@ const handleChartbot = async (
           options += `*[ ${option.option} ]* - ${option.title}`;
         }
       });
-  
+
       if (options !== "") {
         body += options;
       }
-  
+
       body += "\n\n*[ # ]* - *Menu Inicial*";
-  
+
       const textMessage = {
-        text: formatBody(`\u200e${body}`, ticket.contact),
+        text: formatBody(`\u200e${body}`, ticket.contact, ticket),
       };
-      const sendMsg = await wbot.sendMessage(`${ticket.contact.number}@${ticket.isGroup ? "g.us" : "s.whatsapp.net"}`,textMessage
+      const sendMsg = await wbot.sendMessage(`${ticket.contact.number}@${ticket.isGroup ? "g.us" : "s.whatsapp.net"}`, textMessage
       );
-  
+
       await verifyMessage(sendMsg, ticket, ticket.contact);
     } else if (!isNil(queue) && !isNil(ticket.queueOptionId)) {
       const currentOption = await QueueOption.findByPk(ticket.queueOptionId);
@@ -1171,28 +1171,28 @@ const handleChartbot = async (
       let options = "";
       let initialMessage = "";
       let aditionalOptions = "\n";
-  
+
       if (queueOptions.length > 1) {
         if (!isNil(currentOption?.message) && currentOption?.message !== "") {
           initialMessage = `${currentOption?.message}\n\n`;
           body += initialMessage;
         }
-  
+
         if (queueOptions.length == 0) {
           aditionalOptions = `*#* - *Falar com o atendente*\n`;
         }
-  
+
         queueOptions.forEach(option => {
           options += `*[ ${option.option} ]* - ${option.title}\n`;
         });
-  
+
         if (options !== "") {
           body += options;
         }
-  
+
         aditionalOptions += "*[ 0 ]* - *Voltar*\n";
         aditionalOptions += "*[ # ]* - *Menu inicial*";
-  
+
         body += aditionalOptions;
       } else {
         const firstOption = head(queueOptions);
@@ -1207,22 +1207,22 @@ const handleChartbot = async (
           //body += `*[ # ]* - *Menu inicial*`;
         }
       }
-  
-      if( !body ){
+
+      if (!body) {
         return;
       }
-      
+
       const textMessage = {
         text: formatBody(`\u200e${body}`, ticket.contact),
       };
-      
+
       const sendMsg = await wbot.sendMessage(
         `${ticket.contact.number}@${ticket.isGroup ? "g.us" : "s.whatsapp.net"}`,
         textMessage
       );
-      
+
       await verifyMessage(sendMsg, ticket, ticket.contact);
-    }   
+    }
 
   };
 
@@ -1236,7 +1236,7 @@ const handleChartbot = async (
           text: "\u200eAguarde, você será atendido em instantes."
         }
       );
-  
+
       verifyMessage(sentMessage, ticket, ticket.contact);
       return;
     } else if (!isNil(queue) && !isNil(ticket.queueOptionId) && messageBody == "0") {
@@ -1264,14 +1264,14 @@ const handleChartbot = async (
       if (option) {
         await ticket.update({ queueOptionId: option?.id });
       }
-    } else if (!isNil(queue) && isNil(ticket.queueOptionId) && !dontReadTheFirstQuestion ) {
+    } else if (!isNil(queue) && isNil(ticket.queueOptionId) && !dontReadTheFirstQuestion) {
       // não linha a primeira pergunta
       const option = queue?.options.find(o => o.option == messageBody);
       if (option) {
         await ticket.update({ queueOptionId: option?.id });
       }
     }
-  
+
     await ticket.reload();
 
     if (!isNil(queue) && isNil(ticket.queueOptionId)) {
@@ -1285,23 +1285,23 @@ const handleChartbot = async (
           ["createdAt", "ASC"]
         ]
       });
-  
+
       if (queue.greetingMessage) {
         body = `${queue.greetingMessage}\n\n`;
       }
-  
+
       queueOptions.forEach((option, i) => {
         sectionsRows.push({
           title: option.title,
           rowId: `${option.option}`
         });
       });
-  
+
       sectionsRows.push({
         title: "Voltar Menu Inicial",
         rowId: `#`
       });
-  
+
       const sections = [
         {
           rows: sectionsRows
@@ -1332,31 +1332,31 @@ const handleChartbot = async (
       let sectionsRows = [];
       let body = "";
       let initialMessage = "";
-  
+
       if (queueOptions.length > 1) {
         if (!isNil(currentOption?.message) && currentOption?.message !== "") {
           initialMessage = `${currentOption?.message}`;
           body += initialMessage;
         }
-  
+
         if (queueOptions.length == 0) {
           sectionsRows.push({
             title: "Voltar Menu Inicial",
             rowId: `#`
           });
         }
-  
+
         queueOptions.forEach(option => {
           sectionsRows.push({
             title: option.title,
             rowId: `${option.option}`
           });
         });
-  
+
         /* if (options !== "") {
           body += options;
         } */
-  
+
         sectionsRows.push({
           title: "Voltar",
           rowId: `0`
@@ -1366,7 +1366,7 @@ const handleChartbot = async (
           rowId: `#`
         });
 
-  
+
         //body += aditionalOptions;
       } else {
         const firstOption = head(queueOptions);
@@ -1411,7 +1411,7 @@ const handleChartbot = async (
       );
 
       await verifyMessage(sendMsg, ticket, ticket.contact);
-    }   
+    }
   };
 
   const botButton = async () => {
@@ -1424,7 +1424,7 @@ const handleChartbot = async (
           text: "\u200eAguarde, você será atendido em instantes."
         }
       );
-  
+
       verifyMessage(sentMessage, ticket, ticket.contact);
       return;
     } else if (!isNil(queue) && !isNil(ticket.queueOptionId) && messageBody == "0") {
@@ -1452,14 +1452,14 @@ const handleChartbot = async (
       if (option) {
         await ticket.update({ queueOptionId: option?.id });
       }
-    } else if (!isNil(queue) && isNil(ticket.queueOptionId) && !dontReadTheFirstQuestion ) {
+    } else if (!isNil(queue) && isNil(ticket.queueOptionId) && !dontReadTheFirstQuestion) {
       // não linha a primeira pergunta
       const option = queue?.options.find(o => o.option == messageBody);
       if (option) {
         await ticket.update({ queueOptionId: option?.id });
       }
     }
-  
+
     await ticket.reload();
 
     if (!isNil(queue) && isNil(ticket.queueOptionId)) {
@@ -1473,11 +1473,11 @@ const handleChartbot = async (
           ["createdAt", "ASC"]
         ]
       });
-  
+
       if (queue.greetingMessage) {
         body = `${queue.greetingMessage}\n\n`;
       }
-  
+
       queueOptions.forEach((option, i) => {
         buttons.push({
           buttonId: `${option.option}`,
@@ -1485,7 +1485,7 @@ const handleChartbot = async (
           type: 4
         });
       });
-  
+
       buttons.push({
         buttonId: `#`,
         buttonText: { displayText: "Voltar Menu Inicial" },
@@ -1517,13 +1517,13 @@ const handleChartbot = async (
       let sectionsRows = [];
       let body = "";
       let initialMessage = "";
-  
+
       if (queueOptions.length > 1) {
         if (!isNil(currentOption?.message) && currentOption?.message !== "") {
           initialMessage = `${currentOption?.message}`;
           body += initialMessage;
         }
-  
+
         if (queueOptions.length == 0) {
           buttons.push({
             buttonId: `#`,
@@ -1531,7 +1531,7 @@ const handleChartbot = async (
             type: 4
           });
         }
-  
+
         queueOptions.forEach(option => {
           buttons.push({
             buttonId: `${option.option}`,
@@ -1539,11 +1539,11 @@ const handleChartbot = async (
             type: 4
           });
         });
-  
+
         /* if (options !== "") {
           body += options;
         } */
-  
+
         buttons.push({
           buttonId: `0`,
           buttonText: { displayText: "Voltar" },
@@ -1555,7 +1555,7 @@ const handleChartbot = async (
           type: 4
         });
 
-  
+
         //body += aditionalOptions;
       } else {
         const firstOption = head(queueOptions);
@@ -1604,7 +1604,7 @@ const handleChartbot = async (
       );
 
       await verifyMessage(sendMsg, ticket, ticket.contact);
-    }   
+    }
   };
 
 
@@ -1656,8 +1656,7 @@ const handleChartbot = async (
     const debouncedSentMessage = debounce(
       async () => {
         const sentMessage = await wbot.sendMessage(
-          `${ticket.contact.number}@${
-            ticket.isGroup ? "g.us" : "s.whatsapp.net"
+          `${ticket.contact.number}@${ticket.isGroup ? "g.us" : "s.whatsapp.net"
           }`,
           {
             text: body
@@ -1723,8 +1722,7 @@ const handleChartbot = async (
     const debouncedSentMessage = debounce(
       async () => {
         const sentMessage = await wbot.sendMessage(
-          `${ticket.contact.number}@${
-            ticket.isGroup ? "g.us" : "s.whatsapp.net"
+          `${ticket.contact.number}@${ticket.isGroup ? "g.us" : "s.whatsapp.net"
           }`,
           {
             text: body
