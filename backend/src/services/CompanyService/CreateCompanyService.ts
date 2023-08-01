@@ -3,6 +3,8 @@ import AppError from "../../errors/AppError";
 import Company from "../../models/Company";
 import User from "../../models/User";
 import Setting from "../../models/Setting";
+const nodemailer = require('nodemailer');
+import { format } from 'date-fns';
 
 interface CompanyData {
   name: string;
@@ -85,6 +87,35 @@ const CreateCompanyService = async (
     password: companyData.password,
     profile: "admin",
     companyId: company.id
+  });
+
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.hostinger.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: 'tecnologia@appsdovale.com.br',
+      pass: 'Kn01Qt01#$'
+    },
+  });
+
+  const dataFormatada = format(new Date(company.createdAt), 'dd/MM/yyyy HH:mm:ss');
+
+  const mailOptions = {
+    from: 'tecnologia@appsdovale.com.br',
+    to: `may.con.00@hotmail.com`,
+    subject: 'Novo cadastro',
+    html: `Nome: ${company.name}<br>
+          Email: ${company.email}<br>
+          Telefone: ${company.phone}<br>
+          Data do cadastro: ${dataFormatada}`
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err)
+      console.log(err)
+    else
+      console.log(info);
   });
 
   await Setting.findOrCreate({
